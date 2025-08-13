@@ -15,8 +15,10 @@ const Statistics = ({good, neutral, bad}) => {
      const Positive = good /(good + neutral + bad)
       
      if (All === 0){
-      return<p> No Feedback Given</p>
-      }
+      return(
+      "No Feedback Given"
+      )
+    }
      
 
      return (
