@@ -24,7 +24,7 @@ const Statistics = ({good, neutral, bad}) => {
      return (
         <div>
           <StatisticLine text="good" value ={Good} />
-          <StatisticLine text="neutral" value ={Neutral} />
+          <StatisticLine text="neutral" value ={Neutral}/>
           <StatisticLine text="bad" value ={Bad} />
           <StatisticLine text="all" value={All}/>
           <StatisticLine text="average" value={Average}/>
@@ -32,6 +32,14 @@ const Statistics = ({good, neutral, bad}) => {
         </div>
      )
     
+}
+
+const ButtonGroup = (setGood, setNeutral, setBad, good, neutral, bad) => {
+  <div>
+      <button onClick={() => setGood(good + 1)}>good</button>
+      <button onClick={() => setNeutral(neutral + 1)}>neutral</button>
+      <button onClick={() => setBad(bad + 1)}>bad</button>
+  </div>
 }
 
 
@@ -43,17 +51,17 @@ const App = () => {
   return (
     <div>
       <h1>Give Feedback</h1>
-      <button onClick={() => setGood(good + 1)}>good</button>
-      <button onClick={() => setNeutral(neutral + 1)}>neutral</button>
-      <button onClick={() => setBad(bad + 1)}>bad</button>
+      <ButtonGroup
+        setGood={setGood} good={good}
+        setNeutral={setNeutral} neutral={neutral}
+        setBad={setBad} bad={bad}
+      />
 
       <h2>Statistics</h2>
       <Statistics good={good} neutral={neutral} bad={bad}/>
 
     </div>
   )
-
-  
 }
 
 export default App
