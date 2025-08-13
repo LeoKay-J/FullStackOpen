@@ -30,7 +30,7 @@ const App = () => {
     <div>
       <p>{anecdotes[setSelected, selected]}</p>
       <button onClick={()=> setSelected(Math.floor(Math.random() * anecdotes.length))}>next anecdote</button>
-      <p>this hs {votes[selected]}</p>
+      <p>this has {votes[selected]}</p>
       <button onClick={handleVote}>vote</button>
     </div>
   )
