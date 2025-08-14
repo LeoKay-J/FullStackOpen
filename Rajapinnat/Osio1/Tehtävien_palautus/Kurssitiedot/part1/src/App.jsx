@@ -21,7 +21,7 @@ const Part = ({part}) => {
       </div>
 )
 
-}
+} 
 
 
 const Content = ({parts}) => {
