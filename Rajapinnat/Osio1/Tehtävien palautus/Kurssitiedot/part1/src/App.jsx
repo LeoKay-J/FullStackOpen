@@ -21,6 +21,9 @@ const Part = ({part, exercises,}) => {
 
   )
 }
+const Course =() =>{
+
+}
 
 const Content = ({parts}) => {
       return(
