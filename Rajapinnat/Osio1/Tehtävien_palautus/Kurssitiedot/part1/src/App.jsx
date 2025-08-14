@@ -14,9 +14,7 @@ const Header = ({course}) => {
 const Part = ({part}) => {
     return(
       <div>
-        <p>
-        {part.name} {part.exercises}
-      </p>
+        <p>{part.name} {part.exercises}</p>
       </div>
 )
 
@@ -52,15 +50,19 @@ const App = () => {
         name: 'State of a component',
         exercises: 14,
         id: 3
+      },
+      {
+        name: 'Redux',
+        exercises: 11, 
       }
     ]
   }
 
   return (
     <div>
-      <Header course={course.name} />
+      <Header course={course.name}/>
       <Content parts={course.parts}/>
-   
+
     </div>
   )
 }
