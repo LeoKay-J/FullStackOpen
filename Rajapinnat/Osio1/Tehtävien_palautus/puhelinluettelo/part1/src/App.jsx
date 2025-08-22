@@ -11,7 +11,6 @@ const FilterNames = ({ filter, search }) => {
     </div>
   )
 }
-
 const NewNameAndNumber = ({ addName, newName, handleNameChange, newNumber, handleNumberChange }) => {
   return (
     <div>
@@ -30,23 +29,22 @@ const NewNameAndNumber = ({ addName, newName, handleNameChange, newNumber, handl
     </div>
   )
 }
-
-const List = ({ person }) => {
-  return (
-    <li>{person.name} {person.number}</li>
-  )
-}
-
-const NamesAndNumbers = ({ peopleToShow }) => {
+const NamesAndNumbers = ({ peopleToShow, confirmDelete }) => {
   return (
     <div>
       <h2>Numbers</h2>
       <ul>
         {peopleToShow.map(person =>
-          <List key={person.id} person={person} />
+          <List key={person.id} person={person} confirmDelete={() => confirmDelete(person)} />
         )}
       </ul>
     </div>
+  )
+}
+
+const List = ({ person, confirmDelete }) => {
+  return (
+    <li>{person.name} {person.number} <button onClick={confirmDelete}>delete</button></li>
   )
 }
 
@@ -92,11 +90,19 @@ const App = () => {
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value)
   }
-
   const Search = (event) => {
     setFilter(event.target.value)
   }
 
+  const confirmDelete = (person) => {
+    if (window.confirm("Do you want to delete " + person.name)) {
+      personServices.personsDelete(person.id)
+        .then(response => {
+          setPeople(people.filter(person => response.data.id !== person.id
+          ))
+        })
+    }
+  }
   const peopleToShow = filter === ''
     ? people
     : people.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
@@ -104,8 +110,8 @@ const App = () => {
   return (
     <div>
       <FilterNames filter={filter} search={Search} />
-      <NewNameAndNumber addName={addName}mnewName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
-      <NamesAndNumbers peopleToShow={peopleToShow} />
+      <NewNameAndNumber addName={addName} mnewName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
+      <NamesAndNumbers peopleToShow={peopleToShow} confirmDelete={confirmDelete} />
     </div>
   )
 }
