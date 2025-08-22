@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
 import personServices from './services/notes.js'
+import './index.css'
 
 const FilterNames = ({ filter, search }) => {
   return (
     <div>
-      <h2>Phonebook</h2>
+      
+      <h1>Phonebook</h1>
       <div>
         Filter Names: <input value={filter} onChange={search} />
       </div>
@@ -14,7 +16,7 @@ const FilterNames = ({ filter, search }) => {
 const NewNameAndNumber = ({ addName, newName, handleNameChange, newNumber, handleNumberChange }) => {
   return (
     <div>
-      <h2>Add New</h2>
+      <h1>Add New</h1>
       <form onSubmit={addName}>
         <div>
           Name: <input value={newName} onChange={handleNameChange} />
@@ -32,7 +34,7 @@ const NewNameAndNumber = ({ addName, newName, handleNameChange, newNumber, handl
 const NamesAndNumbers = ({ peopleToShow, confirmDelete }) => {
   return (
     <div>
-      <h2>Numbers</h2>
+      <h1>Numbers</h1>
       <ul>
         {peopleToShow.map(person =>
           <List key={person.id} person={person} confirmDelete={() => confirmDelete(person)} />
@@ -47,12 +49,23 @@ const List = ({ person, confirmDelete }) => {
     <li>{person.name} {person.number} <button onClick={confirmDelete}>delete</button></li>
   )
 }
+  const Notification = ({ message }) => {
+    if (message === null) {
+      return null
+    }
 
+    return (
+      <div className="popup">
+        {message}
+      </div>
+    )
+  }
 const App = () => {
   const [people, setPeople] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [popUpMessage, setPopUpMessage] = useState(null)
 
   useEffect(() => {
     personServices.getAll()
@@ -64,6 +77,7 @@ const App = () => {
   const addName = (event) => {
     event.preventDefault()
     const found = people.find(person => person.name === newName)
+
 
     if (found) {
       alert(`${newName} is already added to phonebook`)
@@ -80,11 +94,18 @@ const App = () => {
         setPeople(people.concat(response.data))
         setNewName('')
         setNewNumber('')
+         setPopUpMessage(
+          `Created `+ response.data.name
+        )
+        setTimeout(() => {
+          setPopUpMessage(null)
+        }, 5000)
       })
   }
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
+
   }
 
   const handleNumberChange = (event) => {
@@ -100,17 +121,29 @@ const App = () => {
         .then(response => {
           setPeople(people.filter(person => response.data.id !== person.id
           ))
+          
+          setPopUpMessage(
+            `Note '${people.content}' was already removed from server`
+          )
+          setTimeout(() => {
+            setPopUpMessage(null)
+          }, 5000)
         })
     }
   }
+
   const peopleToShow = filter === ''
     ? people
     : people.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
 
+
+
+
   return (
     <div>
-      <FilterNames filter={filter} search={Search} />
-      <NewNameAndNumber addName={addName} mnewName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
+      <Notification message={popUpMessage} />
+      <FilterNames filter={filter} search={Search} Notification={Notification} />
+      <NewNameAndNumber addName={addName} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange}  />
       <NamesAndNumbers peopleToShow={peopleToShow} confirmDelete={confirmDelete} />
     </div>
   )
