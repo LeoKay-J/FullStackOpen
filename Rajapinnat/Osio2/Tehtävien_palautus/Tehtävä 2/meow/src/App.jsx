@@ -10,7 +10,6 @@ const App = () => {
       .then((data) => setFacts(data.data))
       .then((facts) => console.log(facts));
 
-
   }
   return (
     <div>
