@@ -1,14 +1,14 @@
 import { useState } from "react";
 
 const App = () => {
-  const [quote, setQuote] = useState([])
+  const [facts, setFacts] = useState([])
 
 
   const RandomCatFact = () => {
     fetch("https://meowfacts.herokuapp.com/")
       .then((response) => response.json())
-      .then((data) => setQuote(data.data))
-      .then((quote) => console.log(quote));
+      .then((data) => setFacts(data.data))
+      .then((facts) => console.log(facts));
 
 
   }
@@ -17,7 +17,7 @@ const App = () => {
       <h1>Cat Facts</h1>
       <button onClick={RandomCatFact}>Cat Fact</button>
       <ul>
-        {quote.map((catfacts, index) => (
+        {facts.map((catfacts, index) => (
           <li key={index}>{catfacts}</li>
         ))}
       </ul>
