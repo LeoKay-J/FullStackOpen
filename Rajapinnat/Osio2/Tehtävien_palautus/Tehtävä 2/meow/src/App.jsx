@@ -17,8 +17,8 @@ const App = () => {
       <h1>Cat Facts</h1>
       <button onClick={RandomCatFact}>Cat Fact</button>
       <ul>
-        {quote.map((facts, index) => (
-          <li key={index}>{facts}</li>
+        {quote.map((catfacts, index) => (
+          <li key={index}>{catfacts}</li>
         ))}
       </ul>
       <p></p>
