@@ -8,7 +8,7 @@ const App = () => {
 
   return (
     <div>
-      <button>Random</button>
+      <button>Random Joke</button>
     </div>
   )
 }
