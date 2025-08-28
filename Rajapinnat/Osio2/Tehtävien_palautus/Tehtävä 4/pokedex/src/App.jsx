@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from "react"
 
 function App() {
   const [search, setSearch] = useState("")
@@ -20,39 +20,40 @@ function App() {
   const getPokemonWithId = async (id) => {
     let pokemonData
     await fetch(`https://pokeapi.co/api/v2/pokemon/` + id)
-      .then( async (response) => {
-         const data = await response.json() 
-        pokemonData = data 
-        console.log(pokemonData)
-       
+      .then(async (response) => {
+        const data = await response.json()
+        pokemonData = data
+
       })
-       return pokemonData
-       
+    return pokemonData
+
   }
 
-  const getNewPokemon = (id) => {
-    const data = getPokemonWithId(id);
+  const getNewPokemon = async (id) => {
+    const data = await getPokemonWithId(id);
     setPokemon(data)
+    getNextPokemon(data.id)
+    getPrevPokemon(data.id)
   }
 
-  const getNextPokemon = (id) => {
+  const getNextPokemon = async (id) => {
     if (id === 10277) {
-      const data = getPokemonWithId(1)
+      const data = await getPokemonWithId(1)
       setNextPokemon(data.name)
       return
     }
 
-    const data = getPokemonWithId(id + 1)
+    const data = await getPokemonWithId(id + 1)
     setNextPokemon(data.name)
   }
 
-  const getPrevPokemon = (id) => {
+  const getPrevPokemon = async (id) => {
     if (id === 1) {
-      const data = getPokemonWithId(10277)
+      const data = await getPokemonWithId(10277)
       setPrevPokemon(data.name)
       return
     }
-    const data = getPokemonWithId(id - 1)
+    const data = await getPokemonWithId(id - 1)
     setPrevPokemon(data.name)
   }
 
@@ -71,6 +72,63 @@ function App() {
       getNewPokemon(pokemon.id - 1);
 
   }
+  const getTypeColor = (typeName) => {
+    if (typeName === 'fire') {
+      return 'red'
+    }
+    else if (typeName === 'water') {
+      return 'darkblue'
+    }
+    else if (typeName === 'grass') {
+      return 'green'
+    }
+    else if (typeName === 'normal'){
+      return 'gray'
+    }
+    else if (typeName === 'flying'){
+      return 'lightgray'
+    }
+    else if (typeName === 'Dragon' ){
+      return 'blue'
+    }
+    else if (typeName === 'poison'){
+      return 'purple'
+    }
+    else if (typeName === 'bug'){
+      return 'darkgreen'
+    }
+    else if (typeName === 'dark'){
+      return 'black'
+    }
+    else if (typeName === 'ghost'){
+      return 'lightpurple'
+    }
+    else if (typeName === 'psychic'){
+      return 'darkpink '
+    }
+    else if (typeName === 'electric'){
+      return 'yellow'
+    }
+    else if (typeName === 'rock'){
+      return 'brown'
+    }
+    else if (typeName === 'fairy'){
+      return 'pink'
+    }
+    else if (typeName === 'ground'){
+      return 'lightbrown'
+    }
+    else if (typeName === 'steel'){
+      return 'silver'
+    }
+    else if (typeName === 'fighting'){
+      return 'orange'
+    }
+    else if (typeName === 'ice'){
+      return 'blue'
+    }
+  }
+  
   return (
     <div>
       <h1>pokemon Filterer</h1>
@@ -85,7 +143,12 @@ function App() {
           <h3><p>Pokedex Index:</p> #{pokemon.id}</h3>
           <ul>
             {pokemon.types.map((t, index) => (
-              <li key={index}>{t.type.name}</li>))}
+              <li
+                key={index}
+                style={{ color: getTypeColor(t.type.name) }}>
+                {t.type.name}
+              </li>
+            ))}
           </ul>
           <h3><p>Weight</p>{pokemon.weight}</h3>
           <h3><p>height</p>{pokemon.height}</h3>
