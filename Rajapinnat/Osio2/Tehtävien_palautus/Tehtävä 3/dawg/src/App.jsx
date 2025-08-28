@@ -8,7 +8,7 @@ const App = () => {
 
   useEffect(() => {
     fetch("https://dog.ceo/api/breeds/list/all")
-      .then((res) => res.json())
+      .then((response) => response.json())
       .then((data) => {
         setBreeds(Object.keys(data.message));
       })
