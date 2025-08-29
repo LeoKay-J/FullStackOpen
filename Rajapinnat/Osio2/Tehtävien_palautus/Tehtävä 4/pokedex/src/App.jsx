@@ -82,53 +82,61 @@ function App() {
     else if (typeName === 'grass') {
       return 'green'
     }
-    else if (typeName === 'normal'){
+    else if (typeName === 'normal') {
       return 'gray'
     }
-    else if (typeName === 'flying'){
+    else if (typeName === 'flying') {
       return 'lightgray'
     }
-    else if (typeName === 'Dragon' ){
+    else if (typeName === 'Dragon') {
       return 'blue'
     }
-    else if (typeName === 'poison'){
+    else if (typeName === 'poison') {
       return 'purple'
     }
-    else if (typeName === 'bug'){
+    else if (typeName === 'bug') {
       return 'darkgreen'
     }
-    else if (typeName === 'dark'){
+    else if (typeName === 'dark') {
       return 'black'
     }
-    else if (typeName === 'ghost'){
+    else if (typeName === 'ghost') {
       return 'lightpurple'
     }
-    else if (typeName === 'psychic'){
+    else if (typeName === 'psychic') {
       return 'darkpink '
     }
-    else if (typeName === 'electric'){
+    else if (typeName === 'electric') {
       return 'yellow'
     }
-    else if (typeName === 'rock'){
+    else if (typeName === 'rock') {
       return 'brown'
     }
-    else if (typeName === 'fairy'){
+    else if (typeName === 'fairy') {
       return 'pink'
     }
-    else if (typeName === 'ground'){
+    else if (typeName === 'ground') {
       return 'lightbrown'
     }
-    else if (typeName === 'steel'){
+    else if (typeName === 'steel') {
       return 'silver'
     }
-    else if (typeName === 'fighting'){
+    else if (typeName === 'fighting') {
       return 'orange'
     }
-    else if (typeName === 'ice'){
+    else if (typeName === 'ice') {
       return 'blue'
     }
   }
-  
+
+
+  const pokemonCries = () => {
+    if (pokemon){
+      const audio = new Audio(`https://play.pokemonshowdown.com/audio/cries/${pokemon.name.toLowerCase()}.mp3`);
+      audio.play();
+    }
+  }
+
   return (
     <div>
       <h1>pokemon Filterer</h1>
@@ -158,6 +166,7 @@ function App() {
           </ul>
           <img src={pokemon.sprites.front_default} alt={`${pokemon.name} normal`} />
           <img src={pokemon.sprites.front_shiny} alt={`${pokemon.name} shiny`} />
+          <button onClick={pokemonCries}>Press for pokemon sounds</button>
           <button onClick={handlePrevPokemon}>{prevPokemon}</button>
           <button onClick={handleNextPokemon}>{nextPokemon}</button>
         </div>
