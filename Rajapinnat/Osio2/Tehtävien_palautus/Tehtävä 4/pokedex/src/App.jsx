@@ -1,6 +1,23 @@
 import React, { useState } from "react";
 import './app.css';
 
+
+const PokemonWithSameAbility = ({ abilitiesInfo, pokemon }) => {
+
+  if (abilitiesInfo === null) {
+    return (
+      <div>
+        <p>Ability name: {abilitiesInfo.names[7].name}</p>
+        <p>Effect: {abilitiesInfo.effect_entries[1].effect}</p>
+        <ul>
+          {abilitiesInfo.pokemon.map(pokeAbility => <li key={pokemon.id}> {pokeAbility.name}</li>)}
+        </ul>
+      </div>
+    )
+  } 
+}
+
+
 function App() {
   const [search, setSearch] = useState("")
   const [pokemon, setPokemon] = useState(null)
@@ -192,21 +209,21 @@ function App() {
 
           <div>
             <p>pokemon abilities: </p>
-              {pokemon.abilities.map(abilities =>
-                <button onClick={() => getPokemonAbilityInfo(abilities.ability.name)} key={abilities.ability.name}>{abilities.ability.name}</button>
-                )}
+            {pokemon.abilities.map(abilities =>
+              <button onClick={() => getPokemonAbilityInfo(abilities.ability.name)} key={abilities.ability.name}>{abilities.ability.name}</button>
+            )}
+            <p></p>
           </div>
-
           <div>
+            <PokemonWithSameAbility abilitiesinfo={abilitiesInfo} pokemon={pokemon} />
+
+          </div>
+          <div>
+            <p>previous and next pokemon</p>
             <button onClick={handlePrevPokemon}>{prevPokemon}</button>
             <button onClick={handleNextPokemon}>{nextPokemon}</button>
           </div>
 
-          <div>
-            <p>Ability name: {abilitiesInfo.names[7].name}</p>
-            <p>Effect: {abilitiesInfo.effect_entries[1].effect}</p>
-            <p></p>
-          </div>
         </div>
       )}
     </div>
