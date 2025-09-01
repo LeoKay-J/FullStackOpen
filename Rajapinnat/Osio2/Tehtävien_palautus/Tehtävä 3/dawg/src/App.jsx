@@ -35,10 +35,10 @@ const App = () => {
     <div>
       <h1>Choose a Dog Breed</h1>
 
-      <button onClick={RandomDogImage}>Show Random Dog</button>
+      <button onClick={RandomDogImage}>Random Dog image</button>
 
       <select value={selectedBreed} onChange={handleBreedChange}>
-        <option value="">-- Select a breed --</option>
+        <option value=""> Select a breed </option>
         {breeds.map((breed) => (
           <option key={breed} value={breed}>
             {breed}
