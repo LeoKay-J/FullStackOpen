@@ -20,7 +20,7 @@ const PokemonWithSameAbility = ({ abilitiesInfo }) => {
 }
 
 
-function App() {
+const App = () => {
   const [search, setSearch] = useState("")
   const [pokemon, setPokemon] = useState(null)
   const [nextPokemon, setNextPokemon] = useState("")
