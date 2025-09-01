@@ -2,19 +2,21 @@ import React, { useState } from "react";
 import './app.css';
 
 
-const PokemonWithSameAbility = ({ abilitiesInfo, pokemon }) => {
-
-  if (abilitiesInfo === null) {
+const PokemonWithSameAbility = ({ abilitiesInfo }) => {
+ 
+  if (abilitiesInfo !== null){
     return (
       <div>
-        <p>Ability name: {abilitiesInfo.names[7].name}</p>
+        <p>Ability name:
+        {abilitiesInfo.names[7].name}</p>
         <p>Effect: {abilitiesInfo.effect_entries[1].effect}</p>
         <ul>
-          {abilitiesInfo.pokemon.map(pokeAbility => <li key={pokemon.id}> {pokeAbility.name}</li>)}
+          {abilitiesInfo.pokemon.map(pokeAbility => <li key={pokeAbility.pokemon.name}> {pokeAbility.pokemon.name}</li>)}
         </ul>
       </div>
     )
   } 
+  return (null)
 }
 
 
@@ -23,7 +25,7 @@ function App() {
   const [pokemon, setPokemon] = useState(null)
   const [nextPokemon, setNextPokemon] = useState("")
   const [prevPokemon, setPrevPokemon] = useState("")
-  const [abilitiesInfo, setAbilitiesInfo] = useState([])
+  const [abilitiesInfo, setAbilitiesInfo] = useState(null)
 
   const filterPokemon = () => {
     fetch(`https://pokeapi.co/api/v2/pokemon/${search.toLowerCase()}`)
@@ -158,7 +160,9 @@ function App() {
   const getPokemonAbilityInfo = (abilityName) => {
     fetch(`https://pokeapi.co/api/v2/ability/${abilityName}/`)
       .then((response) => response.json())
-      .then((data) => { setAbilitiesInfo(data); })
+      .then((data) => { 
+        setAbilitiesInfo(data); 
+      })
   }
   return (
     <div>
@@ -215,8 +219,7 @@ function App() {
             <p></p>
           </div>
           <div>
-            <PokemonWithSameAbility abilitiesinfo={abilitiesInfo} pokemon={pokemon} />
-
+            <PokemonWithSameAbility abilitiesInfo={abilitiesInfo} />
           </div>
           <div>
             <p>previous and next pokemon</p>
