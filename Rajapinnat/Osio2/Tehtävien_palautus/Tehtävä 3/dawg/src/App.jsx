@@ -12,7 +12,7 @@ const App = () => {
       .then((data) => {
         setBreeds(Object.keys(data.message));
       })
-  }, [])
+  },[])
 
   const RandomDogImage = () => {
     fetch("https://dog.ceo/api/breeds/image/random")
