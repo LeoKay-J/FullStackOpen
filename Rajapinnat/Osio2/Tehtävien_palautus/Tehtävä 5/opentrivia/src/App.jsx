@@ -74,7 +74,7 @@ const App = () => {
       <div>
         <h1>Trivia</h1>
         <h3>Select number of questions</h3>
-        <input value={selectedAmount} onChange={handleAmountChange} min={1} max={50} />
+        <input value={amount} onChange={handleAmountChange} min={1} max={50} />
 
         <h3>Select gategory</h3>
         <select value={selectedCategory} onChange={handleCategoryChange}>
@@ -86,17 +86,17 @@ const App = () => {
 
         <h3>Select difficulty</h3>
         <select value={selectedDifficulty} onChange={handleDificultyChange}>
-          <option value={difficulty}>-Any difficulty-</option>
-          <option value={difficulty}>Easy</option>
-          <option value={}>Medium</option>
-          <option>Hard</option>
+          <option >-Any difficulty-</option>
+          <option value={easy}>Easy</option>
+          <option value={medium}>Medium</option>
+          <option value={hard}>Hard</option>
         </select>
 
         <h3>Select type</h3>
         <select value={selectedType} onChange={handleTypeChange}>
-          <option value={type}>-Select type-</option>
-          <option value={type}>Mutliple choice</option>
-          <option value={type}>True / false</option>
+          <option >-Select type-</option>
+          <option value={multipleChoice}>Mutliple choice</option>
+          <option value={boolean}>True / false</option>
         </select>
 
         <h2>Start Trivia!</h2>
