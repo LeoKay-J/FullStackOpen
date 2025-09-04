@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 var morgan = require('morgan')
+
+
 app.use(express.json())
 
 morgan(function (tokens, req, res) {
@@ -18,7 +20,6 @@ morgan('combined', {
 })
 
 app.use(morgan('tiny'))
-
 
 let persons = [
     {
