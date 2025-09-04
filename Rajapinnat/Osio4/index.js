@@ -1,5 +1,7 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
+app.use(cors())
 
 let quotes = [
   {
@@ -46,6 +48,11 @@ let quotes = [
 
 app.get('/api/quotes', (request, response) => {
   response.json(quotes)
+})
+
+app.get('/api/quotes/random', (requrest, response) => {
+  const randomIndex = Math.floor(Math.random() * quotes.length);
+  response.json(quotes[randomIndex])
 })
 
 const PORT = 3001
