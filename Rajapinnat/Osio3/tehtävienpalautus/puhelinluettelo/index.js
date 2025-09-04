@@ -1,7 +1,24 @@
 const express = require('express')
 const app = express()
-
+var morgan = require('morgan')
 app.use(express.json())
+
+morgan(function (tokens, req, res) {
+  return [
+    tokens.method(req, res),
+    tokens.url(req, res),
+    tokens.status(req, res),
+    tokens.res(req, res, 'content-length'), '-',
+    tokens['response-time'](req, res), 'ms'
+  ].join(' ')
+})
+
+morgan('combined', {
+  skip: function (req, res) { return res.statusCode < 400 }
+})
+
+app.use(morgan('tiny'))
+
 
 let persons = [
     {
@@ -45,7 +62,6 @@ app.get('/api/persons/:id', (request, response) => {
     } else {
         response.status(404).end()
     }
-
 })
 app.delete('/api/persons/:id', (request, response) => {
     const id = request.params.id
@@ -74,13 +90,11 @@ app.post('/api/persons', (request, response) => {
             error: 'Name already in list'
         })
     }
-
     const person = {
         name: body.name,
         number: body.number,
         id: generateId(),
     }
-
     persons = persons.concat(person)
     response.json(person)
 })
