@@ -1,0 +1,7 @@
+POST http://localhost:3001/api/quotes
+Content-Type: application/json
+
+{
+    "quote": "random sanonta koodista tähän hfhjuheruhjhgujfuhguthguthgutnhguthgyuthgygthgythgythgyhtyghtyghg", 
+    "author":"viisas ville"
+}

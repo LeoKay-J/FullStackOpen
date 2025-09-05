@@ -2,12 +2,38 @@ import { useState } from 'react'
 
 const App = () => {
   const [quotes, setQuotes] = useState([])
+  const [newQuote, setNewQuote] = useState("")
+  const [newAuthor, setNewAuthor] = useState("")
 
   const randomCodingQuote = async () => {
     const response = await fetch('http://localhost:3001/api/quotes/random')
     const data = await response.json()
     setQuotes(data)
   }
+  const newQuotes = (event) => {
+    event.preventDefault()
+    
+    const quoteInfo ={
+      quote: newQuote,
+      author: newAuthor
+    }
+console.log(quoteInfo)
+    
+    fetch('http://localhost:3001/api/quotes', {
+      method: "POST",
+      headers: { 
+        'Content-Type': 'application/json' 
+      },
+      body: JSON.stringify(quoteInfo),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data)
+      setNewQuote("")
+      setNewAuthor("")
+    })
+  }
+
 
   return (
     <div>
@@ -19,12 +45,12 @@ const App = () => {
       </div>
       <div>
         <h3>Add quote</h3>
-        <form>
-          <input placeholder='-Quote-'/>
-          <input placeholder='-Author-'/>
-          <input type="submit" value="Submit"/>
+        <form onSubmit={newQuotes}>
+          <input placeholder='-Quote-' value={newQuote} onChange={(e) => setNewQuote(e.target.value)} />
+          <input placeholder='-Author-' value={newAuthor} onChange={(e) => setNewAuthor(e.target.value)}/>
+          <input  value="submit" type="submit" />
         </form>
-        
+
       </div>
     </div>
   )
