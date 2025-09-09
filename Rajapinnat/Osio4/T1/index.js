@@ -57,22 +57,19 @@ app.get('/api/quotes/random', (request, response) => {
   const randomQuote = Math.floor(Math.random() * quotes.length);
   response.json(quotes[randomQuote])
 })
-
 app.post('/api/quotes', (request, response) => {
   const body = request.body
- 
+
   if (!body.quote) {
     return response.status(400).json({
       error: 'quote missing'
     })
-    
   }
   const quote = {
     quote: body.quote,
     author: body.author
   }
   quotes = quotes.concat(quote)
-
   response.json(quote)
 })
 

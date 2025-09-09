@@ -1,11 +1,13 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import axios from 'axios'
 
 
-const PlayedGames = ({ playedGames }) => {
+
+const PlayedGames = ({ getGames }) => {
   return (
     <div>
-      {playedGames.map(games =>
-        <div key={games.id}>
+      {getGames.map(games =>
+        <div key={games.name}>
           <p>{games.name}</p>
           <p>{games.percentage}</p>
         </div>)}
@@ -13,73 +15,62 @@ const PlayedGames = ({ playedGames }) => {
   )
 }
 
-
 function App() {
-  const [games, setGames] = useState([
-        {
-          name: "Apex Legends",
-          percentage: "100%",
-          id: 1,
-        },
-        {
-          name: "Valorant",
-          percentage: "100%",
-          id: 2,
-        },
-        {
-          name: "FC 25",
-          percentage: "50%",
-          id: 3,
-        },
-        {
-          name: "Peak",
-          percentage: "33%",
-          id: 4,
-        }
-  ])
+  const [games, setGames] = useState([])
   const [newGames, setNewGames] = useState("")
   const [newGamePercent, setNewGamePercent] = useState("")
 
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/api/games/')
+      .then((response) => {
+        setGames(response.data)
+      })
+  }, []);
+
   const addGame = (event) => {
     event.preventDefault()
-   
+
     const gameInfo = {
       name: newGames,
       percentage: newGamePercent,
-      id: generateId()
-    } 
+    }
     console.log(gameInfo)
-    setGames(games.concat(gameInfo))
-    setNewGames(''),
-    setNewGamePercent('')
 
+    fetch('http://localhost:3001/api/games/', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(gameInfo)
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data)
+        setNewGames("")
+        setNewGamePercent("")
+        setGames(games.concat(gameInfo))
+     })
   }
-
-  const generateId = () => {
-    const maxId = games.length > 0
-        ? Math.max(...games.map(p => Number(p.id)))
-        : 0
-    return String(maxId + 1)
-}
 
   const handleGameChange = (event) => {
     setNewGames(event.target.value)
   }
 
   const handlePercentChange = (event) => {
-        setNewGamePercent(event.target.value)
+    setNewGamePercent(event.target.value)
   }
   return (
     <div>
       <div>
         <h1>Played Games</h1>
-        <PlayedGames playedGames={games} />
+        <PlayedGames getGames={games} />
       </div>
       <div>
         <form onSubmit={addGame}>
           <input value={newGames} placeholder="-Game name-" onChange={handleGameChange}></input>
-          <input value={newGamePercent} placeholder="-Completed %-" onChange={handlePercentChange}></input>
-          <input value="submit" type="submit"/>
+          <input value={newGamePercent} placeholder="-number-  -%-" onChange={handlePercentChange}></input>
+          <input value="submit" type="submit" />
         </form>
       </div>
     </div>

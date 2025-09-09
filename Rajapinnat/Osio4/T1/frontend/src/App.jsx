@@ -12,29 +12,33 @@ const App = () => {
   }
   const newQuotes = (event) => {
     event.preventDefault()
-    
-    const quoteInfo ={
+
+    const quoteInfo = {
       quote: newQuote,
       author: newAuthor
     }
-console.log(quoteInfo)
-    
+    console.log(quoteInfo)
+
     fetch('http://localhost:3001/api/quotes', {
       method: "POST",
-      headers: { 
-        'Content-Type': 'application/json' 
+      headers: {
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(quoteInfo),
     })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data)
-      setNewQuote("")
-      setNewAuthor("")
-    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data)
+        setNewQuote("")
+        setNewAuthor("")
+      })
   }
-
-
+  const handleNewQuote = (event) => {
+    setNewQuote(event.target.value)
+  }
+  const handleNewAuthor = (event) => {
+    setNewAuthor(event.target.value)
+  }
   return (
     <div>
       <div>
@@ -46,9 +50,9 @@ console.log(quoteInfo)
       <div>
         <h3>Add quote</h3>
         <form onSubmit={newQuotes}>
-          <input placeholder='-Quote-' value={newQuote} onChange={(event) => setNewQuote(event.target.value)} />
-          <input placeholder='-Author-' value={newAuthor} onChange={(event) => setNewAuthor(event.target.value)}/>
-          <input  value="submit" type="submit" />
+          <input placeholder='-Quote-' value={newQuote} onChange={handleNewQuote} />
+          <input placeholder='-Author-' value={newAuthor} onChange={handleNewAuthor} />
+          <input value="submit" type="submit" />
         </form>
 
       </div>
