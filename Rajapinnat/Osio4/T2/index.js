@@ -23,6 +23,14 @@ let games = [
     {
         "name": "Peak",
         "percentage": "33%",
+    },
+    {
+        "name": "F1 25",
+        "percentage": "50%"
+    },
+    {
+        "name": "Minecraft",
+        "percentage": "15%"
     }
 
 ]
@@ -47,6 +55,17 @@ app.post('/api/games', (request, response) => {
     games = games.concat(game)
     response.json(game)
 })
+app.delete('/api/games/:name', (request, response) => {
+    const name = request.params.name
+    games = games.filter(game => game.name !== name)
+
+    response.status(204).end()
+})
+
+app.put('/api/games/', (request, response) => {
+    
+})
+
 
 const PORT = 3001
 app.listen(PORT, () => {

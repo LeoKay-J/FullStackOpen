@@ -3,13 +3,13 @@ import axios from 'axios'
 
 
 
-const PlayedGames = ({ getGames }) => {
+const PlayedGames = ({ getGames, deleteGame }) => {
   return (
     <div>
       {getGames.map(games =>
         <div key={games.name}>
-          <p>{games.name}</p>
-          <p>{games.percentage}</p>
+          <p>Game: {games.name}</p>
+          <p>Percentage: {games.percentage}</p><button onClick={() => deleteGame(games.name)}>Delete Game</button>
         </div>)}
     </div>
   )
@@ -50,9 +50,26 @@ function App() {
         setNewGames("")
         setNewGamePercent("")
         setGames(games.concat(gameInfo))
-     })
+      })
   }
 
+  const deleteGame = (name) => {
+
+    fetch('http://localhost:3001/api/games/' + name, {
+      method: "DELETE"
+    })
+      .then((response) => {
+        setGames(games.filter(game => game.name !== name))
+      })
+  }
+
+  const updateGame = () => {
+    fetch('http://localhost:3001/api/games/', {
+      method: "PUT",
+      headers: { "Content-Type": "aplication/json" },
+      body: JSON.stringify()
+    })
+  }
   const handleGameChange = (event) => {
     setNewGames(event.target.value)
   }
@@ -64,7 +81,7 @@ function App() {
     <div>
       <div>
         <h1>Played Games</h1>
-        <PlayedGames getGames={games} />
+        <PlayedGames getGames={games} deleteGame={(name) => deleteGame(name)} />
       </div>
       <div>
         <form onSubmit={addGame}>
