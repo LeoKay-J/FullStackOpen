@@ -52,7 +52,7 @@ app.post('/users', async (request, response) => {
 
 app.put('/users/:id', async (request, response) => {
     const body = request.body
-    const {id} = request.params
+    const { id } = request.params
 
     const { data, error } = await supabase
         .from("users")
@@ -70,15 +70,71 @@ app.put('/users/:id', async (request, response) => {
     }
     response.json(data)
 })
+app.put('/users_subscriptions/:id', async (request, response) => {
+    const { id } = request.params
+    const body = request.body
+
+    const { data, error } = await supabase
+        .from("users")
+        .update({
+            SubscriptionsID: body.SubscriptionsID
+        })
+        .select()
+        .eq('id', id)
+
+    if (error) {
+        console.error('Error fetching users:', error);
+        return response.status(500).json({ error: 'Database error' })
+    }
+    response.json(data)
+})
+
+
 
 app.delete('/users/:id', async (request, response) => {
-    const {id} = request.params
+    const { id } = request.params
 
-    const {data, error} = await supabase
-    .from("users")
-    .delete()
-    .eq("id",id)
-   
+    const { data, error } = await supabase
+        .from("users")
+        .delete()
+        .eq("id", id)
+
+    if (error) {
+        console.error('Error fetching users:', error);
+        return response.status(500).json({ error: 'Database error' })
+    }
+    response.json(data)
+})
+
+app.post('/subscriptions', async (request, response) => {
+    const body = request.body
+
+    const { data, error } = await supabase
+        .from("subscriptions")
+        .insert({
+            Name: body.Name,
+            Price: body.Price,
+            Type: body.Type
+        })
+
+    if (error) {
+        console.error('Error fetching users:', error);
+        return response.status(500).json({ error: 'Database error' })
+    }
+    response.json(data)
+})
+app.put('/subscriptions/:id', async (request, response) => {
+    const body = request.body
+    const { id } = request.params
+
+    const { data, error } = await supabase
+        .from("subscriptions")
+        .update({
+            Price: body.Price,
+        })
+        .select()
+        .eq('id', id)
+
     if (error) {
         console.error('Error fetching users:', error);
         return response.status(500).json({ error: 'Database error' })

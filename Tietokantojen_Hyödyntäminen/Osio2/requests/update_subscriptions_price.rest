@@ -1,0 +1,6 @@
+PUT http://localhost:3000/subscriptions/5
+Content-Type: application/json
+
+{
+    "Price": "169.99"
+}
