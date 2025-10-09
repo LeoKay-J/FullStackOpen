@@ -1,0 +1,9 @@
+POST http://localhost:3000/books/new
+Content-Type: application/json
+
+{
+    "Name": "The Hidden Garden",
+    "Publisher": "Vintage Books",
+    "Pages":"310",
+    "Preview":"Behind a crumbling estate lies a garden that blooms only for those who believe in second chances."
+} 
