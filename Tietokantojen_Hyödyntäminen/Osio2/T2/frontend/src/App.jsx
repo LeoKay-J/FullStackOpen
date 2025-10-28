@@ -32,9 +32,11 @@ function App() {
     book.Name.toLowerCase().includes(search.toLowerCase())
   )
 
-  const checkAvailableBooks = () =>{
+  const checkAvailableBooks = () => {
     axios.get('http://localhost:3000/books/availability')
-    .then()
+      .then((response) => {
+        setLoans(response.data)
+      })
   }
 
   const addNewBook = (event) => {
@@ -54,51 +56,55 @@ function App() {
         console.log(response)
 
         setNewBookName(""),
-        setNewBookPublisher(""),
-        setNewBookPages(""),
-        setNewBookPreview(""),
-        setBooks(books.concat(response.data))
+          setNewBookPublisher(""),
+          setNewBookPages(""),
+          setNewBookPreview(""),
+          setBooks(books.concat(response.data))
       })
   }
 
-  const addNewUser =(event) => {
+  const addNewUser = (event) => {
     event.preventDefault()
 
-    const newUserInfo =  {
+    const newUserInfo = {
       Firstname: newUserFirstName,
       Lastname: newUserLastName
     }
 
     axios.post('http://localhost:3000/user/new', newUserInfo)
-    .then((response) => {
-      setNewUserFirstName("")
-      setNewUserFirstName("")
-      setUsers(users.concat(response.data))
+      .then((response) => {
+        setNewUserFirstName("")
+        setNewUserFirstName("")
+        setUsers(users.concat(response.data))
 
-    })
+      })
   }
-/*onChange for new books*/
+  /*onChange for new books*/
   const handleNewBook = (event) => {
     setNewBookName(event.target.value)
   }
-   const handleNewPublisher = (event) => {
+  const handleNewPublisher = (event) => {
     setNewBookPublisher(event.target.value)
   }
-   const handleNewPages = (event) => {
+  const handleNewPages = (event) => {
     setNewBookPages(event.target.value)
   }
-   const handleNewPreview = (event) => {
+  const handleNewPreview = (event) => {
     setNewBookPreview(event.target.value)
   }
 
-/*onChange for new users*/
-const handleNewUserFirstName =(event)=>{
-  setNewUserFirstName(event.target.value)
-}
-const handleNewUserLastName =(event)=>{
-  setNewUserLastName(event.target.value)
-}
+  /*onChange for new users*/
+  const handleNewUserFirstName = (event) => {
+    setNewUserFirstName(event.target.value)
+  }
+  const handleNewUserLastName = (event) => {
+    setNewUserLastName(event.target.value)
+  }
 
+  /*onClick for loan availability */
+  const handleLoanAvailability = (event) =>{
+    setLoans(event.target.value)
+  }
   return (
     <div>
       <div>
@@ -111,7 +117,7 @@ const handleNewUserLastName =(event)=>{
         <ul>
           {bookFilter.map((book) =>
             <li key={book.id}>
-             {book.Name}, {book.Publisher}, {book.Pages} pages, {book.Preview}
+              {book.Name}, {book.Publisher}, {book.Pages} pages, {book.Preview}
             </li>
           )}
         </ul>
@@ -137,7 +143,11 @@ const handleNewUserLastName =(event)=>{
       </div>
       <div>
         <h2>Loanable books</h2>
-        <button onClick={checkAvailableBooks}>Press to see available books</button>
+        <button onClick={handleLoanAvailability}value={loans}>Press to see available books</button>
+        <ul>
+          {checkAvailableBooks.map((loan) => 
+          <li key={loan.id}>{}</li>)}
+        </ul>
       </div>
     </div>
   )
