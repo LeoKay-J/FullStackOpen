@@ -1,9 +1,11 @@
 require('dotenv').config()
 const express = require('express')
 const { supabase } = require('./database.js')
+const cors = require('cors')
 
 const app = express()
 app.use(express.json())
+app.use(cors())
 
 app.get('/books', async (request, response) => {
     const { data } = await supabase
@@ -60,17 +62,28 @@ app.get('/loans', async (request, response) => {
 
     response.json(data)
 })
+
 app.post('/books/new', async (request, response) => {
     const body = request.body
 
-    const { data } = await supabase
+    console.log(body)
+
+    const { data, error } = await supabase
         .from("books")
         .insert({
-            Name: body.Name,
-            Publisher: body.Publisher,
-            Pages: body.Pages,
-            Preview: body.Preview
+            Name: body.name,
+            Publisher: body.publisher,
+            Pages: body.pages,
+            Preview: body.preview
         })
+        .select()
+        .single()
+
+        if(error){
+            console.log(error)
+        }
+
+        console.log(data)
     response.json(data)
 })
 
