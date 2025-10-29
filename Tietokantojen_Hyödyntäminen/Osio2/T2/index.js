@@ -26,8 +26,8 @@ app.get('/books/:id', async (request, response) => {
     response.json(data)
 })
 
-app.get('/books/availability', async (request, response) => {
-
+app.get('/availability', async (request, response) => {
+    console.log("hello")
     const { data: loanedBooks, error: loanError } = await supabase
         .from('loan')
         .select('book_id')
@@ -37,7 +37,6 @@ app.get('/books/availability', async (request, response) => {
         console.error('Error fetching loaned books:', loanError);
         return;
     }
-
     const loanedBookIds = loanedBooks.map(item => item.book_id);
 
     const { data: availableBooks, error: booksError } = await supabase
@@ -71,10 +70,10 @@ app.post('/books/new', async (request, response) => {
     const { data, error } = await supabase
         .from("books")
         .insert({
-            Name: body.name,
-            Publisher: body.publisher,
-            Pages: body.pages,
-            Preview: body.preview
+            name: body.name,
+            publisher: body.publisher,
+            pages: body.pages,
+            preview: body.preview
         })
         .select()
         .single()
@@ -93,8 +92,8 @@ app.post('/user/new', async (request, response) => {
     const{data} = await supabase
     .from("user")
     .insert({
-        Firstname: body.Firstname,
-        Lastname: body.Lastname
+        firstname: body.Firstname,
+        lastname: body.Lastname
     })
 
     response.json(data)
@@ -106,8 +105,8 @@ app.post('/newloan', async (request, response)=> {
     const {data, error} = await supabase
     .from("loan")
     .insert({
-        Startdate: body.Startdate,
-        Enddate: body.Enddate,
+        startdate: body.startdate,
+        enddate: body.enddate,
         book_id: body.book_id,
         user_id: body.user_id
     })

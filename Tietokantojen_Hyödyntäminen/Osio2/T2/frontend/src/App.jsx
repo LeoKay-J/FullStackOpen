@@ -17,6 +17,11 @@ function App() {
   const [newUserFirstName, setNewUserFirstName] = useState("")
   const [newUserLastName, setNewUserLastName] = useState("")
 
+  const [newLoanStartDate, setNewLoanStartDate] = useState("")
+  const [newLoanEndDate, setNewLoanEndDate] = useState("")
+  const [newLoanBookId, setNewLoanBookId] = useState("")
+  const [newLoanUserId, setNewLoanUserId] = useState("")
+
   useEffect(() => {
     axios.get('http://localhost:3000/books')
       .then((response) => {
@@ -28,21 +33,21 @@ function App() {
     setSearch(event.target.value)
   }
 
-  const bookFilter = books.filter((book) =>
-    book.Name.toLowerCase().includes(search.toLowerCase())
-  )
+  const bookFilter =
+    books.filter((book) =>
+      book.name.toLowerCase().includes(search.toLowerCase())
+    )
 
   const checkAvailableBooks = () => {
-    axios.get('http://localhost:3000/books/availability')
+    axios.get('http://localhost:3000/availability')
       .then((response) => {
         setLoans(response.data)
+
       })
   }
 
   const addNewBook = (event) => {
     event.preventDefault()
-
-    console.log('hello')
 
     const newBookInfo = {
       name: newBookName,
@@ -51,7 +56,7 @@ function App() {
       preview: newBookPreview
     }
 
-    axios.post('http://localhost:3000/books/new', newBookInfo)
+    axios.post('http://localhost:3000/books/enw', newBookInfo)
       .then((response) => {
         console.log(response)
 
@@ -67,8 +72,8 @@ function App() {
     event.preventDefault()
 
     const newUserInfo = {
-      Firstname: newUserFirstName,
-      Lastname: newUserLastName
+      firstname: newUserFirstName,
+      lastname: newUserLastName
     }
 
     axios.post('http://localhost:3000/user/new', newUserInfo)
@@ -79,36 +84,66 @@ function App() {
 
       })
   }
-  /*onChange for new books*/
-  const handleNewBook = (event) => {
-    setNewBookName(event.target.value)
-  }
-  const handleNewPublisher = (event) => {
-    setNewBookPublisher(event.target.value)
-  }
-  const handleNewPages = (event) => {
-    setNewBookPages(event.target.value)
-  }
-  const handleNewPreview = (event) => {
-    setNewBookPreview(event.target.value)
+
+  const makeNewLoan = (event) => {
+    event.preventDefault()
+    const newLoanInfo = {
+      startdate: newLoanStartDate,
+      enddate: newLoanEndDate,
+      book_id: newLoanBookId,
+      user_id: newLoanUserId
+    }
+
+
+    axios.post('http://localhost:3000/newloan', newLoanInfo)
+      .then((response) => {
+        setNewLoanStartDate("")
+        setNewLoanEndDate("")
+        setNewLoanBookId("")
+        setNewLoanUserId("")
+        setLoans(loans.concat(response.data))
+      })
   }
 
-  /*onChange for new users*/
-  const handleNewUserFirstName = (event) => {
-    setNewUserFirstName(event.target.value)
-  }
-  const handleNewUserLastName = (event) => {
-    setNewUserLastName(event.target.value)
-  }
-
-  /*onClick for loan availability */
-  const handleLoanAvailability = (event) =>{
-    setLoans(event.target.value)
-  }
   return (
     <div>
+      <h1>Books</h1>
       <div>
-        <h1>Books</h1>
+        <h2>Add new Book</h2>
+        <form onSubmit={addNewBook}>
+          <input onChange={(event) => setNewBookName(event.target.value)} value={newBookName} placeholder="Book name"></input>
+          <input onChange={(event) => setNewBookPublisher(event.target.value)} value={newBookPublisher} placeholder="Publisher"></input>
+          <input onChange={(event) => setNewBookPages(event.target.value)} value={newBookPages} placeholder="Pages"></input>
+          <input onChange={(event) => setNewBookPreview(event.target.value)} value={newBookPreview} placeholder="Preview"></input>
+          <button>Add Book</button>
+        </form>
+      </div>
+      <div>
+        <h2>Add new User</h2>
+        <form onSubmit={addNewUser}>
+          <input onChange={(event) => setNewUserFirstName(event.target.value)} value={newUserFirstName} placeholder="Firstname"></input>
+          <input onChange={(event) => setNewUserLastName(event.target.value)} value={newUserLastName} placeholder="Lastname"></input>
+          <button>Add User</button>
+        </form>
+      </div>
+      <div>
+        <h2>Loan a book</h2>
+        <form onSubmit={makeNewLoan}>
+          <input type="date" onChange={(event) => setNewLoanStartDate(event.target.value)} value={newLoanStartDate} placeholder="Loan Start Date"></input>
+          <input type="date" onChange={(event) => setNewLoanEndDate(event.target.value)} value={newLoanEndDate} placeholder="Loan End Date"></input>
+          <input onChange={(event) => setNewLoanBookId(event.target.value)} value={newLoanBookId} placeholder="Book ID"></input>
+          <input onChange={(event) => setNewLoanUserId(event.target.value)} value={newLoanUserId} placeholder="User ID"></input>
+          <button>Loan book</button>
+        </form>
+      </div>
+      <div>
+        <h2>Loanable books</h2>
+        <button onClick={checkAvailableBooks} value={loans}>Press to see available books</button>
+        <ul>
+          {loans.map(book => <li key={book.id}>{book.name}</li>)}
+        </ul>
+      </div>
+      <div>
         <h2>Search</h2>
         <form>
           <input value={search} placeholder="Filter books" onChange={handleBookSearch}></input>
@@ -117,36 +152,9 @@ function App() {
         <ul>
           {bookFilter.map((book) =>
             <li key={book.id}>
-              {book.Name}, {book.Publisher}, {book.Pages} pages, {book.Preview}
+              {book.name}, {book.publisher}, {book.pages} pages, {book.preview}
             </li>
           )}
-        </ul>
-      </div>
-      <div>
-        <h2>Add new Book</h2>
-        <form onSubmit={addNewBook}>
-          <input onChange={handleNewBook} value={newBookName} placeholder="Book name"></input>
-          <input onChange={handleNewPublisher} value={newBookPublisher} placeholder="Publisher"></input>
-          <input onChange={handleNewPages} value={newBookPages} placeholder="Pages"></input>
-          <input onChange={handleNewPreview} value={newBookPreview} placeholder="Preview"></input>
-          <button>Add Book</button>
-        </form>
-      </div>
-
-      <div>
-        <h2>Add new User</h2>
-        <form onSubmit={addNewUser}>
-          <input onChange={handleNewUserFirstName} value={newUserFirstName} placeholder="Firstname"></input>
-          <input onChange={handleNewUserLastName} value={newUserLastName} placeholder="Lastname"></input>
-          <button>Add User</button>
-        </form>
-      </div>
-      <div>
-        <h2>Loanable books</h2>
-        <button onClick={handleLoanAvailability}value={loans}>Press to see available books</button>
-        <ul>
-          {checkAvailableBooks.map((loan) => 
-          <li key={loan.id}>{}</li>)}
         </ul>
       </div>
     </div>
