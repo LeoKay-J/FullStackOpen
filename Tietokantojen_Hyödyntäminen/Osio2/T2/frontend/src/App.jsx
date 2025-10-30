@@ -6,6 +6,7 @@ function App() {
   const [books, setBooks] = useState([])
   const [users, setUsers] = useState([])
   const [loans, setLoans] = useState([])
+  const [availableLoans, setAvailableLoans] = useState([])
 
   const [search, setSearch] = useState("")
 
@@ -41,7 +42,7 @@ function App() {
   const checkAvailableBooks = () => {
     axios.get('http://localhost:3000/availability')
       .then((response) => {
-        setLoans(response.data)
+        setAvailableLoans(response.data)
 
       })
   }
@@ -56,10 +57,8 @@ function App() {
       preview: newBookPreview
     }
 
-    axios.post('http://localhost:3000/books/enw', newBookInfo)
+    axios.post('http://localhost:3000/books/new', newBookInfo)
       .then((response) => {
-        console.log(response)
-
         setNewBookName(""),
           setNewBookPublisher(""),
           setNewBookPages(""),
@@ -104,7 +103,27 @@ function App() {
         setLoans(loans.concat(response.data))
       })
   }
+  const getLoans = () => {
 
+
+    axios.get('http://localhost:3000/loans')
+      .then((response) => {
+        setLoans(response.data)
+        console.log(response.data)
+      })
+
+  }
+
+
+  const deleteLoan = (id) => {
+
+    axios.delete(('http://localhost:3000/loan/' + id))
+      .then(() => {
+        setLoans(loans.filter(loans => loans.id !== id))
+      })
+      
+  }
+  
   return (
     <div>
       <h1>Books</h1>
@@ -138,10 +157,23 @@ function App() {
       </div>
       <div>
         <h2>Loanable books</h2>
-        <button onClick={checkAvailableBooks} value={loans}>Press to see available books</button>
+        <button onClick={checkAvailableBooks} value={availableLoans}>Press to see available books</button>
         <ul>
-          {loans.map(book => <li key={book.id}>{book.name}</li>)}
+          {availableLoans.map(book => <li key={book.id}>{book.name}</li>)}
         </ul>
+      </div>
+      <div>
+        <h3>Books on loan</h3>
+        <button onClick={getLoans} value={loans}>Show book on loan</button>
+        <ul>
+          {loans.map(book => <li key={book.id}> 
+            <b>Loan StartDate:</b> {book.startdate},
+            <b>Loan EndDate:</b>  {book.enddate},
+            <b>book_id:</b> {book.id},
+            <b>user_id:</b>  {book.user_id}
+            <button onClick={() => deleteLoan(book.id)}>Delete Loan</button> </li>)}
+        </ul>
+
       </div>
       <div>
         <h2>Search</h2>
@@ -152,7 +184,7 @@ function App() {
         <ul>
           {bookFilter.map((book) =>
             <li key={book.id}>
-              {book.name}, {book.publisher}, {book.pages} pages, {book.preview}
+              <b>{book.name}</b>, {book.publisher}, <b>{book.pages} pages</b>, {book.preview}
             </li>
           )}
         </ul>

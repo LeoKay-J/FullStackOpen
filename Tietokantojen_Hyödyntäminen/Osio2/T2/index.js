@@ -118,8 +118,9 @@ app.post('/newloan', async (request, response)=> {
     response.json(data)
 })
 
-app.delete('/loan/end/:id', async (request, response)=> {
+app.delete('/loan/:id', async (request, response)=> {
     const {id} = request.params
+    
 
     const {data, error} = await supabase
     .from('loan')
