@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import axios from 'axios'
+import './app.css'
 
 function App() {
 
@@ -103,15 +104,14 @@ function App() {
         setLoans(loans.concat(response.data))
       })
   }
-  const getLoans = () => {
 
+  const getLoans = () => {
 
     axios.get('http://localhost:3000/loans')
       .then((response) => {
         setLoans(response.data)
         console.log(response.data)
       })
-
   }
 
 
@@ -121,66 +121,22 @@ function App() {
       .then(() => {
         setLoans(loans.filter(loans => loans.id !== id))
       })
-      
+
   }
-  
+
   return (
     <div>
-      <h1>Books</h1>
-      <div>
-        <h2>Add new Book</h2>
-        <form onSubmit={addNewBook}>
-          <input onChange={(event) => setNewBookName(event.target.value)} value={newBookName} placeholder="Book name"></input>
-          <input onChange={(event) => setNewBookPublisher(event.target.value)} value={newBookPublisher} placeholder="Publisher"></input>
-          <input onChange={(event) => setNewBookPages(event.target.value)} value={newBookPages} placeholder="Pages"></input>
-          <input onChange={(event) => setNewBookPreview(event.target.value)} value={newBookPreview} placeholder="Preview"></input>
-          <button>Add Book</button>
-        </form>
+      <div className="headerStyle">
+      <h1>Library Manager</h1>
       </div>
-      <div>
-        <h2>Add new User</h2>
-        <form onSubmit={addNewUser}>
-          <input onChange={(event) => setNewUserFirstName(event.target.value)} value={newUserFirstName} placeholder="Firstname"></input>
-          <input onChange={(event) => setNewUserLastName(event.target.value)} value={newUserLastName} placeholder="Lastname"></input>
-          <button>Add User</button>
-        </form>
-      </div>
-      <div>
-        <h2>Loan a book</h2>
-        <form onSubmit={makeNewLoan}>
-          <input type="date" onChange={(event) => setNewLoanStartDate(event.target.value)} value={newLoanStartDate} placeholder="Loan Start Date"></input>
-          <input type="date" onChange={(event) => setNewLoanEndDate(event.target.value)} value={newLoanEndDate} placeholder="Loan End Date"></input>
-          <input onChange={(event) => setNewLoanBookId(event.target.value)} value={newLoanBookId} placeholder="Book ID"></input>
-          <input onChange={(event) => setNewLoanUserId(event.target.value)} value={newLoanUserId} placeholder="User ID"></input>
-          <button>Loan book</button>
-        </form>
-      </div>
-      <div>
-        <h2>Loanable books</h2>
-        <button onClick={checkAvailableBooks} value={availableLoans}>Press to see available books</button>
-        <ul>
-          {availableLoans.map(book => <li key={book.id}>{book.name}</li>)}
-        </ul>
-      </div>
-      <div>
-        <h3>Books on loan</h3>
-        <button onClick={getLoans} value={loans}>Show book on loan</button>
-        <ul>
-          {loans.map(book => <li key={book.id}> 
-            <b>Loan StartDate:</b> {book.startdate},
-            <b>Loan EndDate:</b>  {book.enddate},
-            <b>book_id:</b> {book.id},
-            <b>user_id:</b>  {book.user_id}
-            <button onClick={() => deleteLoan(book.id)}>Delete Loan</button> </li>)}
-        </ul>
-
-      </div>
-      <div>
-        <h2>Search</h2>
-        <form>
-          <input value={search} placeholder="Filter books" onChange={handleBookSearch}></input>
-        </form>
-        <h2>Search results</h2>
+      <div className="bookSearchAndResults">
+        <div className="bookSearch">
+          <h2>Search</h2>
+          <form>
+            <input value={search} placeholder="Filter books" onChange={handleBookSearch}></input>
+          </form>
+        </div>
+        <h3>Search results</h3>
         <ul>
           {bookFilter.map((book) =>
             <li key={book.id}>
@@ -189,6 +145,60 @@ function App() {
           )}
         </ul>
       </div>
+      <div className="container">
+        <div className="flexBoxForForm">
+          <div className="NewBookStyling">
+            <h2>Add new Book</h2>
+            <form onSubmit={addNewBook}>
+              <input onChange={(event) => setNewBookName(event.target.value)} value={newBookName} placeholder="Book name"></input>
+              <input onChange={(event) => setNewBookPublisher(event.target.value)} value={newBookPublisher} placeholder="Publisher"></input>
+              <input onChange={(event) => setNewBookPages(event.target.value)} value={newBookPages} placeholder="Pages"></input>
+              <input onChange={(event) => setNewBookPreview(event.target.value)} value={newBookPreview} placeholder="Preview"></input>
+              <button>Add Book</button>
+            </form>
+          </div>
+          <div className="NewUserStyling">
+            <h2>Add new User</h2>
+            <form onSubmit={addNewUser}>
+              <input onChange={(event) => setNewUserFirstName(event.target.value)} value={newUserFirstName} placeholder="Firstname"></input>
+              <input onChange={(event) => setNewUserLastName(event.target.value)} value={newUserLastName} placeholder="Lastname"></input>
+              <button>Add User</button>
+            </form>
+          </div>
+          <div className="NewLoanStyling">
+            <h2>Loan a book</h2>
+            <form onSubmit={makeNewLoan}>
+              <input type="date" onChange={(event) => setNewLoanStartDate(event.target.value)} value={newLoanStartDate} placeholder="Loan Start Date"></input>
+              <input type="date" onChange={(event) => setNewLoanEndDate(event.target.value)} value={newLoanEndDate} placeholder="Loan End Date"></input>
+              <input onChange={(event) => setNewLoanBookId(event.target.value)} value={newLoanBookId} placeholder="Book ID"></input>
+              <input onChange={(event) => setNewLoanUserId(event.target.value)} value={newLoanUserId} placeholder="User ID"></input>
+              <button>Loan book</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div className="flexBoxForForm">
+        <div className="LoanableBooks">
+          <h2>Loanable books</h2>
+          <button onClick={checkAvailableBooks} value={availableLoans}>Press to see available books</button>
+          <ul>
+            {availableLoans.map(book => <li key={book.id}>{book.name}</li>)}
+          </ul>
+        </div>
+        <div className="BookOnLoan">
+          <h2>Books on loan</h2>
+          <button onClick={getLoans} value={loans}>Show book on loan</button>
+          <ul>
+            {loans.map(book => <li key={book.id}>
+              <b>Loan StartDate:</b> {book.startdate},
+              <b>Loan EndDate:</b>  {book.enddate},
+              <b>book_id:</b> {book.id},
+              <b>user_id:</b>  {book.user_id}
+              <button onClick={() => deleteLoan(book.id)}>Delete Loan</button> </li>)}
+          </ul>
+        </div>
+      </div>
+      
     </div>
   )
 }

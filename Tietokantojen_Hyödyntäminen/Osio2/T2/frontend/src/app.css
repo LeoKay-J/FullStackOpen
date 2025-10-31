@@ -1,0 +1,227 @@
+/* color palette 
+    https://colorhunt.co/palette/222831393e46948979dfd0b8*/
+
+/* Text styles*/
+body {
+    display: flex;
+    justify-content: center;
+    background-color: #222831;
+}
+
+h1 {
+    color: #DFD0B8;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+h2 {
+    color: #DFD0B8;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+h3 {
+    color: #DFD0B8;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+li {
+    color: #DFD0B8;
+    font-family: Arial, Helvetica, sans-serif;
+}
+form {
+  padding: 10px;
+}
+
+/* Specific class customisation*/
+
+.headerStyle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/*BOOK FILTER*/
+.bookSearch{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    
+}
+.bookSearchAndResults{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #393E46;
+    padding: 50px;
+    margin: 50px;
+    border-radius: 10px;
+}
+.bookSearchAndResults h2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.bookSearchAndResults form {
+    border-style: none;
+    border-radius: 10px;
+    width: 300px;
+}
+.bookSearchAndResults input{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #222831;
+    color: #DFD0B8;
+    border-color:#DFD0B8;
+    padding: 10px;
+    border-radius: 10px;
+   
+
+}
+
+.flexBoxForForm {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+
+.flexBoxForBooks {
+    display: flex;
+    flex-direction: row;
+}
+/*NEW BOOK BOX*/
+.NewBookStyling {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    justify-content: top;
+    align-items: center;
+    background-color: #393E46;
+    padding: 10px;
+    border-radius: 5%;
+    width: 400px;
+    height: 300px;
+    margin: 40px;
+    padding: 30px;
+}
+.NewBookStyling input{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #222831;
+    color: #DFD0B8;
+    border-color:#DFD0B8;
+    padding: 4px;
+    border-radius: 5px;
+    margin: 2px;
+    width: 250px;
+    
+}
+.NewBookStyling button{
+    cursor: pointer;
+    background-color: #DFD0B8;
+    border-radius: 5px;
+    border-style: none;
+    padding: 5px;
+}
+
+
+/*NEw USER BOX*/
+.NewUserStyling {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    justify-content: top;
+    align-items: center;
+    background-color: #393E46;
+    padding: 10px;
+    border-radius: 5%;
+    width: 400px;
+    height: 300px;
+    margin: 40px;
+    padding: 30px;
+}
+.NewUserStyling input{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #222831;
+    color: #DFD0B8;
+    border-color:#DFD0B8;
+    padding: 4px;
+    border-radius: 5px;
+    margin: 2px;
+    width: 250px;
+}
+.NewUserStyling button{
+    cursor: pointer;
+    background-color: #DFD0B8;
+    border-radius: 5px;
+    border-style: none;
+    padding: 3px;
+}
+
+/*NEW LOAN BOX*/
+.NewLoanStyling {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    justify-content: top;
+    align-items: center;
+    background-color: #393E46;
+    padding: 10px;
+    border-radius: 5%;
+    width: 400px;
+    height: 300px;
+    margin: 40px;
+    padding: 30px;
+}
+.NewLoanStyling input{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #222831;
+    color: #DFD0B8;
+    border-color:#DFD0B8;
+    padding: 4px;
+    border-radius: 5px;
+    margin: 2px;
+    width: 250px;
+}
+.NewLoanStyling button{
+    cursor: pointer;
+    background-color: #DFD0B8;
+    border-radius: 5px;
+    border-style: none;
+}
+
+/*LOANABLE BOOKS BOX*/
+.LoanableBooks {
+    flex-direction: column;
+    display: flex;
+    padding: 50px;
+    width: 550px;
+    background-color: #393E46;
+    margin: 50px;
+    border-radius: 10px;
+
+}
+.LoanableBooks button{
+    cursor: pointer;
+    background-color: #DFD0B8;
+    border-radius: 5px;
+    border-style: none;
+}
+/*BOOKS ON LOAN BOX*/
+.BookOnLoan {
+    flex-direction: column;
+    display: flex;
+    padding: 50px;
+    width: 550px;
+    background-color: #393E46;
+    margin: 50px;
+    border-radius: 10px;
+}   
+.BookOnLoan button{
+    cursor: pointer;
+    background-color: #DFD0B8;
+    border-radius: 5px;
+    border-style: none;
+}
