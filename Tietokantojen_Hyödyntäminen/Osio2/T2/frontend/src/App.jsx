@@ -121,7 +121,7 @@ function App() {
       .then(() => {
         setLoans(loans.filter(loans => loans.id !== id))
       })
-
+      
   }
 
   return (

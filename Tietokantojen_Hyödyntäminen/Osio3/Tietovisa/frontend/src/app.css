@@ -1,0 +1,19 @@
+/*Color palet from Color Hunt https://colorhunt.co/palette/35394126282b5f85db90b8f8 */
+
+
+/*Base sitewide css*/
+
+body{
+    display: flex;
+    justify-content: center;
+    background-color: #353941;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+
+/*Specific div styles*/
+
+
+.HeaderStyle{
+    color: #90B8F8;
+}
