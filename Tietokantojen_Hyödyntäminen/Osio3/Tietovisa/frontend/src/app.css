@@ -1,19 +1,59 @@
 /*Color palet from Color Hunt https://colorhunt.co/palette/35394126282b5f85db90b8f8 */
+/* color codes main: #353941 secondary: #26282B third: #5F85DB font: #90B8F8*/
 
 
 /*Base sitewide css*/
 
-body{
+body {
     display: flex;
     justify-content: center;
     background-color: #353941;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 
 /*Specific div styles*/
 
 
-.HeaderStyle{
+.HeaderStyle {
+    display: flex;
+    justify-content: center;
     color: #90B8F8;
+}
+
+.CategorySelect {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #26282B;
+    color: #90B8F8;
+    padding: 30px;
+    margin: 40px;
+    width: 500px;
+    border-radius: 10px;
+}
+.QuizAnswerBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #26282B;
+    color: #90B8F8;
+    padding: 30px;
+    margin: 40px;
+    width: 1000px;
+    border-radius: 10px;
+}
+.QuizAnswerBox button{
+    border-style: none;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 10px;
+}
+.QuizAnswerBox input{
+    border-style: none;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 10px;
 }
