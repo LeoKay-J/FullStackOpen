@@ -57,3 +57,34 @@ body {
     padding: 5px;
     margin: 10px;
 }
+.QuizStarted{
+    color: #90B8F8;
+}
+.QuizButtons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    padding: 20px;
+    margin:20px;
+
+}
+.QuizButtons button{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 25px;
+    padding-right: 25px;
+    border-radius: 10px;
+    border-style: none;
+    background-color: #26282B;
+    color: #90B8F8;
+    cursor: pointer;
+}
+.NextQuestion{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}

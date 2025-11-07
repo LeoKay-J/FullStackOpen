@@ -9,8 +9,7 @@ app.use(cors())
 
 app.get('/categories', async (request,response) => {
 const { data, error } = await supabase
-.rpc('get_distinct_categories');
-
+.rpc('get_distinct_categories')
 response.json(data)
 }) 
 
@@ -19,6 +18,13 @@ app.get('/questions/:id', async (request, response) => {
     console.log(id)
     const{data,error} = await supabase
     .rpc("get_random_question", {category: id})
+    response.json(data)
+})
+
+app.get('/choices', async (request,response) =>{
+    const{data,error} = await supabase
+    .from('question_choices')
+    .select('*')
     response.json(data)
 })
 
