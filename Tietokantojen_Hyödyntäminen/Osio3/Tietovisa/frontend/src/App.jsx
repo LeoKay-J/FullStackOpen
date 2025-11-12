@@ -1,25 +1,23 @@
 import React, { useState, useEffect } from "react"
 import axios from 'axios'
 import './app.css'
-import { REALTIME_SUBSCRIBE_STATES } from "@supabase/supabase-js"
 
 function App() {
 
   const [categories, setCategories] = useState([])
   const [questions, setQuestions] = useState([])
-  const [questionChoices, setQuestionChoices] = useState([])
+  const [questionChoices, setQuestionChoices] = useState(null)
+  const [questionChoicesToShow, setQuestionChoicesToShow] = useState(null)
   const [selectedCategory, setSelectedCategories] = useState("")
-
   const [currentQuestionIndex, setCurrentQuestionsIndex] = useState(0)
-  const [quizStarted, setQuizStarted] = useState(false)
-
-  const [Answer, setAnswer] = useState("")
+  const [gameState, setGameState] = useState("start")
+  const [score, setScore] = useState(0)
 
 
   useEffect(() => {
     axios.get("http://localhost:3000/categories")
       .then((response) => {
-        setCategories(response.data);
+        setCategories(response.data)
       })
   }, [])
 
@@ -28,28 +26,36 @@ function App() {
     axios.get('http://localhost:3000/questions/' + selectedCategory)
       .then((response) => {
         setQuestions(response.data)
-        setQuizStarted(true)
+        setGameState("quiz")
         setCurrentQuestionsIndex(0)
-        console.log(response)
+        console.log(response.data)
+        let questionId = response.data[0].id
 
-        axios.get('http://localhost:3000/choices' + selectedCategory)
+
+        axios.get('http://localhost:3000/choices/')
           .then((response) => {
             setQuestionChoices(response.data)
+            console.log(response.data)
+            console.log(questionId)
+            setQuestionChoicesToShow(response.data.filter(choice => choice.question_id === questionId))
+            console.log(response.data.filter(choice => choice.question_id === questionId))
           })
       })
   }
 
   const checkCorrectAnswer = () => {
+    let nextIndex = currentQuestionIndex + 1
+    setCurrentQuestionsIndex(nextIndex)
+    setQuestionChoicesToShow(questionChoices.filter(choice => choice.question_id === questions[nextIndex].id))
 
-
+    if (questionChoicesToShow.right_choice === true) {
+      console.log("correct")
+      setScore(score + 1)
+    }
   }
 
-  const handleNextQuestion = () => {
-
-  }
-
-
-  if (quizStarted === false) {
+  
+  if (gameState === "start") {
     return (
       <div>
         <div className="HeaderStyle">
@@ -58,7 +64,7 @@ function App() {
         <div className="CategorySelect">
           <h2>Select category for quiz</h2>
           <select onChange={(e) => setSelectedCategories(e.target.value)}>
-            <option>--select category--</option>
+            <option>-select category-</option>
             {categories.map(categories => <option key={categories.categories}>{categories.categories}</option>)}
           </select>
           <button onClick={quizStart}>start quiz</button>
@@ -67,27 +73,23 @@ function App() {
     )
   }
 
-  if (quizStarted === true) {
+  if (gameState === "quiz" && questionChoicesToShow) {
     return (
       <div>
         <div className="QuizStarted">
-          <h1>YOUR GAME HAS STARTED</h1>
+          <h1>Your game has started</h1>
         </div>
         <div className="QuizQuestions">
           <h1>{questions[currentQuestionIndex].questions}</h1>
         </div>
         <div className="QuizButtons">
-          <button onClick={checkCorrectAnswer} value="">{questionChoices[0].choice}</button>
-          <button onClick={checkCorrectAnswer} value="">{questionChoices[1].choice}</button>
-          <button onClick={checkCorrectAnswer} value="">{questionChoices[2].choice}</button>
-        </div>
-        <div className="NextQuestion">
-          <button onClick={handleNextQuestion}>Next Question</button>
+          <button onClick={checkCorrectAnswer} value={questionChoices.id}>{questionChoicesToShow[0].choice}</button>
+          <button onClick={checkCorrectAnswer} value={questionChoices.id}>{questionChoicesToShow[1].choice}</button>
+          <button onClick={checkCorrectAnswer} value={questionChoices.id}>{questionChoicesToShow[2].choice}</button>
         </div>
       </div>
     )
   }
 }
-
 
 export default App

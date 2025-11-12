@@ -67,7 +67,6 @@ body {
     flex-direction: row;
     padding: 20px;
     margin:20px;
-
 }
 .QuizButtons button{
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -86,5 +85,5 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    
+
 }
