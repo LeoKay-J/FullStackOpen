@@ -27,7 +27,13 @@ app.get('/choices/', async (request, response) => {
         .select('*')
     response.json(data)
 })
-
+app.get('/records', async (request,response) => {
+    const{data} = await supabase
+    .from("records")
+    .select("*")
+    .limit(10)
+    response.json(data)
+})
 app.post('/records', async (request, response) => {
     const body = request.body
 
@@ -35,7 +41,8 @@ app.post('/records', async (request, response) => {
         .from('records')
         .insert({
             username: body.username,
-            score: body.score
+            score: body.score,
+            answer_time: body.answer_time
         })
         .select()
         .single()

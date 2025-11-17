@@ -2,6 +2,7 @@ POST http://localhost:3000/records
 Content-Type: application/json
 
 {
-    "username": "",
-    "score": ""
+    "username": "test",
+    "score": "7",
+    "answer_time": "10"
 }
