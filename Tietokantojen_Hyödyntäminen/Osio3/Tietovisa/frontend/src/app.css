@@ -5,8 +5,6 @@
 /*Base sitewide css*/
 
 body {
-    display: flex;
-    justify-content: center;
     background-color: #353941;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
@@ -16,8 +14,6 @@ body {
 
 
 .HeaderStyle {
-    display: flex;
-    justify-content: center;
     align-items: center;
     color: #90B8F8;
 }
@@ -26,7 +22,6 @@ body {
     background-color: #26282B;
     color: #90B8F8;
     padding: 30px;
-    margin: 40px;
     width: 500px;
     border-radius: 10px;
 }
@@ -74,9 +69,6 @@ body {
     color: #90B8F8;
     cursor: pointer;
 }
-.NextQuestion{
-
-}
 .HighScoreLeaderboard{
 
     background-color: #26282B;
@@ -100,7 +92,6 @@ body {
 
 .end_quizscore{
     background-color: #26282B;
-    padding: 50px;
     width: 300px;
     border-radius: 10px;
 }

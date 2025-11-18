@@ -27,11 +27,25 @@ app.get('/choices/', async (request, response) => {
         .select('*')
     response.json(data)
 })
-app.get('/records', async (request,response) => {
-    const{data} = await supabase
-    .from("records")
-    .select("*")
-    .limit(10)
+app.get('/records', async (request, response) => {
+    const { data } = await supabase
+        .from("records")
+        .select("*")
+        .limit(10)
+    response.json(data)
+})
+app.get('/highscore', async (request, response) => {
+    const { data, error } = await supabase
+        .from('records')
+        .select('id, username, score, answer_time')
+        .order('score', { ascending: false })
+        .order('answer_time', { ascending: true })
+        .limit(10)
+
+    if (error) {
+        console.error(error);
+        return response.status(400).json({ error });
+    }
     response.json(data)
 })
 app.post('/records', async (request, response) => {
@@ -44,8 +58,6 @@ app.post('/records', async (request, response) => {
             score: body.score,
             answer_time: body.answer_time
         })
-        .select()
-        .single()
 
     response.json(data)
 })

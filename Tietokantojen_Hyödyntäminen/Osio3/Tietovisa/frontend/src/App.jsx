@@ -10,16 +10,16 @@ function App() {
   /*records */
   const [records, setRecords] = useState([])
   const [newUsername, setNewUsername] = useState("")
+  /*highscore*/
+  const [highscore, setHighScore] = useState([])
   /*questions*/
   const [questions, setQuestions] = useState([])
   const [questionChoicesToShow, setQuestionChoicesToShow] = useState(null)
   const [questionChoices, setQuestionChoices] = useState(null)
   const [currentQuestionIndex, setCurrentQuestionsIndex] = useState(0)
-  const [answerTime, setAnswerTime] = useState([])
   /*quiz game*/
   const [gameState, setGameState] = useState("start")
   const [score, setScore] = useState(0)
-  const [highScore, setHighScore] = useState([])
   /*timer*/
   const [time, setTime] = useState(0);
   const [timerRunning, setTimerRunning] = useState(false);
@@ -34,9 +34,10 @@ function App() {
   }, [])
 
   useEffect(() => {
-    axios.get("http://localhost:3000/records")
+    axios.get("http://localhost:3000/highscore")
       .then((response) => {
-        setRecords(response.data)
+        setHighScore(response.data)
+        console.log(response.data)
       })
   }, [])
 
@@ -80,6 +81,7 @@ function App() {
       })
   }
 
+
   const saveHighScore = (event) => {
     event.preventDefault()
 
@@ -92,32 +94,60 @@ function App() {
       .then((response) => {
         setNewUsername("")
         setScore("")
-        setAnswerTime("")
-        setRecords(records.concat(response.data))
+        //setHighScore(response.data)
         setGameState("start")
-      })
-  }
 
+        axios.get("http://localhost:3000/highscore")
+          .then((response) => {
+            console.log("HERE", response.data)
+            setHighScore(response.data)
+          })
+      })
+
+
+  }
   const checkCorrectAnswer = (event) => {
     var correctChoice = questionChoicesToShow.filter(correctAnswer => correctAnswer.right_choice)
 
+    let newScore = score
     if (Number(event.target.value) === correctChoice[0].id) {
-      setScore(score + 1)
+      newScore += 1
+      setScore(newScore)
     }
 
     let nextIndex = currentQuestionIndex + 1
 
     if (nextIndex >= questions.length) {
       setTimerRunning(false)
-      setAnswerTime(time)
-      setHighScore(score)
-      setGameState("highscore-end")
-
-      return
+      if (newHighScore(newScore)) {
+        setGameState("highscore-end")
+      }
+      else {
+        setGameState("end")
+      }
     }
 
     setCurrentQuestionsIndex(nextIndex)
     setQuestionChoicesToShow(questionChoices.filter(choice => choice.question_id === questions[nextIndex].id))
+  }
+
+  const newHighScore = (newScore) => {
+    let minScore = highscore[9].score
+
+    if (newScore < minScore) {
+      return false
+    }
+    else if (newScore === minScore) {
+      if (time >= highscore[9].answer_time) {
+        return false
+      }
+      else {
+        return true
+      }
+    }
+    else {
+      return true
+    }
   }
 
 
@@ -127,7 +157,9 @@ function App() {
     setCurrentQuestionsIndex(0)
     setScore(0)
 
+
   }
+
   if (gameState === "start") {
     return (
       <div className="start_body">
@@ -145,13 +177,10 @@ function App() {
         <div className="HighScoreLeaderboard">
           <h2>Highscore</h2>
           <ul>
-            {records.map(record => (
-              <li key={record.id}>
-                {record.username} / {record.score} / {record.answer_time} sec
-              </li>
-            ))}
+            {highscore.map(data =>
+              <li key={data.id}>name: <b>{data.username}</b> / score: <b>{data.score}</b> / time: <b>{data.answer_time} sec</b>
+              </li>)}
           </ul>
-
         </div>
       </div>
     )
@@ -193,18 +222,20 @@ function App() {
     return (
       <div>
         <div>
-          <h1>Save highscore</h1>
-           <h3>Your score: {score}</h3>
+          <h1>Save Score</h1>
+          <h3>Your score: {score}p</h3>
           <h3>Your time: {time} sec</h3>
           <form onSubmit={saveHighScore}>
             <input
               value={newUsername}
               onChange={(e) => setNewUsername(e.target.value)}
-              placeholder="username"
+              placeholder="username" required
             />
 
             <button>Save highscore</button>
+
           </form>
+          <button onClick={backToMeny}>back to menu</button>
         </div>
       </div>
     )
