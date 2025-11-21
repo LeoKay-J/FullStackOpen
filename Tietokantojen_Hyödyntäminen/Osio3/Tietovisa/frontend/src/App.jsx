@@ -8,7 +8,6 @@ function App() {
   const [categories, setCategories] = useState([])
   const [selectedCategory, setSelectedCategories] = useState("")
   /*records */
-  const [records, setRecords] = useState([])
   const [newUsername, setNewUsername] = useState("")
   /*highscore*/
   const [highscore, setHighScore] = useState([])
@@ -94,7 +93,7 @@ function App() {
       .then((response) => {
         setNewUsername("")
         setScore("")
-        //setHighScore(response.data)
+        console.log(response)
         setGameState("start")
 
         axios.get("http://localhost:3000/highscore")
